@@ -33,6 +33,6 @@ module.exports = {
     ]
   },
   plugins: [
-    ExtractPlugin
+    extractPlugin
   ]
 };
