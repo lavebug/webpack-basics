@@ -1,6 +1,8 @@
 var path = require('path');
-var webpack = require('webpack');
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractPlugin = new ExtractTextPlugin({
+  filename: 'main.css'
+});
 
 module.exports = {
   entry: './src/js/app.js',
@@ -12,14 +14,25 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.js$/,
         use: [
-          'style-loader',
-          'css-loader'
+          {
+            loader: 'babel-loader',
+            options: {
+              "presets": ["@babel/preset-env"]
+            }
+          }
         ]
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractPlugin.extract({
+          use: ['css-loader', 'sass-loader']
+        })
       }
     ]
   },
   plugins: [
+    ExtractPlugin
   ]
 };
